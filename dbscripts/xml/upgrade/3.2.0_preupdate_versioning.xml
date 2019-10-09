@@ -14,15 +14,6 @@
 	-->
 
 <data>
-	<sql>
-		<query>CREATE TABLE temp_authors AS SELECT * FROM authors</query>
-		<query>CREATE TABLE temp_submissions AS SELECT * FROM submissions</query>
-		<query>CREATE TABLE temp_submission_categories AS SELECT * FROM submission_categories</query>
-		<query>CREATE TABLE temp_submission_galleys AS SELECT * FROM submission_galleys</query>
-		<query>CREATE TABLE temp_submission_galley_settings AS SELECT * FROM submission_galley_settings</query>
-		<query>CREATE TABLE temp_published_submissions AS SELECT * FROM published_submissions</query>
-		<query>CREATE TABLE temp_citations AS SELECT * FROM citations</query>
-	</sql>
 	<!--
 		Identify any submissions with STATUS_PUBLISHED that are missing a corresponding entry
 		in the published_submissions table and reset them to STATUS_QUEUED. In the past, an
@@ -32,17 +23,4 @@
 		precautionary measure to prevent unexpectedly making a submission public if the
 		status value is incorrect for any submissions.
 	-->
-	<sql>
-		<query>
-			UPDATE submissions s
-			SET s.status=1
-			WHERE s.status=3
-			AND (
-				SELECT COALESCE(ps.submission_id, NULL)
-				FROM published_submissions ps
-				WHERE ps.submission_id = s.submission_id
-				AND s.status = 3
-			) IS NULL
-		</query>
-	</sql>
 </data>

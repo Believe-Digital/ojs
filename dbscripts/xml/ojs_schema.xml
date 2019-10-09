@@ -72,7 +72,6 @@
 			<col>journal_id</col>
 			<col>locale</col>
 			<col>setting_name</col>
-			<UNIQUE />
 		</index>
 	</table>
 
